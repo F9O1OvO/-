@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+mt19937 sj;
+int num,maxm;
+
+string s1="-n",s2="-r",s3="-e",s4="-a";
+string inputfile,ansfile;
+string outfile1="Exercises.txt",outfile2="Answer.txt",outfile3="Grade.txt";
+
+void create() {//生成问题
+
+}
+vector<string> read(string s) {//读入文件信息
+    vector<string> v;
+    ifstream ifs(s);
+    if(!ifs.is_open()) {
+        cout<<"Can't open file:"<<s<<endl;
+        exit(0);
+    }
+    string line,now;
+    while (getline(ifs,line)) {
+        现在="";
+        int flag=0;
+        for(int i=0;i<line.length();i++) {
+            if(flag==1) now+=line[i];
+            if(line[i]=='.') flag=1;
+        }
+        v.push_back(now);
+        //cout<<line<<"|"<<now<<endl;
+        line="";
+    }
+    ifs.close();
+    return v;
+}
+
+vector<string> work(vector<string>pro) {//计算答案
+
+}
+void write1(vector<string>ans) {//输出计算答案
+    std::ofstream file(outfile2);
+    if(!file.is_open()) {
+        cout<<"Can't open file:"<<outfile1<<endl;
+        exit(0);
+    }
+    for(int i=0;i<ans.size();i++) {
+        file<<i+1<<"."<<ans[i]<<endl;
+    }
+    file.close();
+}
+void write2(vector<int>right,vector<int>wrong) {//输出比较答案
+
+}
+void compare(vector<string>ans,vector<string>ans1) {//
+    int cnt1=0,cnt2=0;
+    vector<int>right,wrong;
+    for(int i=0;i<ans.size();i++) {
+        if(ans[i]!=ans1[i]) {
+            wrong.push_back(i+1);
+            cnt2++;
+        }else {
+            right.push_back(i+1);
+            cnt1++;
+        }
+    }
+    write2(right,wrong);
+}
+void solve(int flag) {//解决问题
+    if(flag==1) {
+        vector<string>pro=read(outfile1);
+        vector<string>ans=work(pro);
+        write1(ans);
+    }else {
+        vector<string> pro=read(inputfile);
+        vector<string> ans=work(pro);
+        vector<string>ans1=read(ansfile);
+        compare(ans,ans1);
+    }
+}
+
+
+int main(int argc,char *argv[]){
+    // if (argc !=4) {
+    //     cout << "未检测到输入,请重启程序" << endl;
+    //     return 0;
+    // }
+    //
+    // if (argv[0] == s1) {
+    //     num = atoi(argv[1]), maxm = atoi(argv[3]);
+    //     create();
+    //     solve(1);
+    // } else if (argv[0] == s3) {
+    //     inputfile = argv[1], ansfile = argv[3];
+    //     solve(2);
+    // }
+    write1(read(outfile1));
+    return 0;
+}
