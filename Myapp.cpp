@@ -13,7 +13,7 @@ using namespace std;
 #define int long long
 const int inf = 0x3f3f3f3f;
 static mt19937_64 sj(chrono::steady_clock::now().time_since_epoch().count());
-int num = 10, maxm = 100;
+int num = 10000, maxm = 100;
 vector<string> op = { "+", "-", "*", "/" };
 map<char, char> mp1, mp2;
 uniform_int_distribution<int> promaxm(0, maxm - 1);//roll数大小
@@ -52,9 +52,6 @@ struct number {
     number operator/(const number& other) const { // 分数除法
         return number(son * other.mum, mum * other.son);
     }
-    // number operator=(const number& other)const {
-    //     return number(son,mum);
-    // }
     number& operator=(const number& other) {
         if (this != &other) { // 防止自我赋值
             son = other.son;
@@ -97,7 +94,6 @@ number check(string s) {
             return number(0, 1); // 不应该到达这里，返回默认分数 0/1
         }
         if (result.son < 0) {
-            // cout << "Negative result encountered: " << result.son << "/" << result.mum << endl;
             result.son = -1, result.mum = -1;
             return result; // 如果结果为负，返回 (-inf, -inf)
         }
@@ -107,7 +103,6 @@ number check(string s) {
     stack<number> values; // 用于存储分数的栈
     stack<char> ops;      // 用于存储操作符的栈
 
-    // cout << "Processing expression: " << s << endl;
     for (int i = 0; i < s.size(); ++i) {
         if (isdigit(s[i])) {
             int num = 0;
@@ -121,7 +116,6 @@ number check(string s) {
         // 处理左括号
         else if (s[i] == '(') {
             ops.push('(');
-            // cout << "Pushed operator: (" << endl;
         }
         else if (s[i] == ')') {
             while (!ops.empty() && ops.top() != '(') {
@@ -132,17 +126,14 @@ number check(string s) {
                 char op1 = ops.top();
                 ops.pop();
                 number result = cul(val1, val2, op1);
-                // cout << "Computed intermediate result a: " << result.son << "/" << result.mum << endl;
 
                 if (result.son < 0 || result.mum < 0) {
                     // cout << "a" << endl;
                     return result;
                 }
                 values.push(result); // 计算两个数并推入栈
-                // cout << "Computed result: " << result.son << "/" << result.mum << endl;
             }
             ops.pop(); // 弹出左括号
-            // cout << "Popped operator: (" << endl;
         }
         // 处理操作符
         else if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/') {
@@ -154,9 +145,6 @@ number check(string s) {
                 char op1 = ops.top();
                 ops.pop();
                 number result = cul(val1, val2, op1);
-                // cout << val1.son << " " << val1.mum << " " << op1 << " " << val2.son << " " << val2.mum << " " <<
-                // endl;
-                // cout << "Computed intermediate result b: " << result.son << "/" << result.mum << endl;
 
                 if (result.son < 0 || result.mum < 0) {
                     // cout << "b" << endl;
@@ -165,7 +153,6 @@ number check(string s) {
                 values.push(result);
             }
             ops.push(s[i]); // 将当前操作符压入栈
-            // cout << "Pushed operator: " << s[i] << endl;
         }
     }
 
@@ -182,14 +169,9 @@ number check(string s) {
             // cout << "c" << endl;
             return result;
         }
-        // cout << "Computed intermediate result c: " << result.son << "/" << result.mum << endl;
-
         values.push(result);
-        // cout << "Final computed result: " << result.son << "/" << result.mum << endl;
     }
-
     number final_result = values.top();
-    // cout << "Final result: " << final_result.son << "/" << final_result.mum << endl;
     return final_result; // 返回最终的计算结果
 }
 
@@ -240,11 +222,9 @@ void create() { // 生成问题
         string now = getstring();
         now = pplus(now);
         number tt = check(now);
-        // cout << now << " " << tt.son << " " << tt.mum << endl;
         while (tt.son < 0 || tt.mum < 0) {
             now = getstring();
             now = pplus(now);
-            // cout << "create:" << now << " " << tt.son << " " << tt.mum << endl;
             tt = check(now);
         }
         pro.push_back(now);
@@ -368,24 +348,27 @@ void solve(int flag) { // 解决问题
 
 
 signed main(int argc, char* argv[]) {
+    system("pause");
     // cout<<argc<<endl;
-    if (argc != 5) {
-        //cout << argc << endl;
-        cout << "the input is wrong,please restart the program" << endl;
-        return 0;
-    }
-    if (argv[1] == s1) {
-        num = atoi(argv[2]), maxm = atoi(argv[4]);
-        // cout<<num<<" "<<maxm<<endl;
-        solve(1);
-    }
-    else if (argv[1] == s3) {
-        inputfile = argv[2], ansfile = argv[4];
-        solve(2);
-    }
+    //if (argc != 5) {
+    //    //cout << argc << endl;
+    //    cout << "the input is wrong,please restart the program" << endl;
+    //    return 0;
+    //}
+    //if (argv[1] == s1) {
+    //    num = atoi(argv[2]), maxm = atoi(argv[4]);
+    //    // cout<<num<<" "<<maxm<<endl;
+    //    solve(1);
+    //}
+    //else if (argv[1] == s3) {
+    //    inputfile = argv[2], ansfile = argv[4];
+    //    solve(2);
+    //}
     //create();
-    //solve(1);
+    solve(1);
+    cout << "10" << endl;
     //solve(2);
     //write1(read(outfile1));
+    system("pause");
     return 0;
 }
