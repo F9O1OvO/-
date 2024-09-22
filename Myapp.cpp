@@ -1,19 +1,32 @@
-#include <bits/stdc++.h>
+#include <iostream>      
+#include <vector>        
+#include <string>        
+#include <map>           
+#include <random>        
+#include <chrono>        
+#include <algorithm>     
+#include <fstream>       
+#include <stack>         
+#include <cstdlib>       
+#include <cctype>        
 using namespace std;
 #define int long long
 const int inf = 0x3f3f3f3f;
 static mt19937_64 sj(chrono::steady_clock::now().time_since_epoch().count());
 int num = 10, maxm = 100;
-vector<string> op = {"+", "-", "*", "/"};
+vector<string> op = { "+", "-", "*", "/" };
 map<char, char> mp1, mp2;
 uniform_int_distribution<int> promaxm(0, maxm - 1);//roll数大小
-uniform_int_distribution<int> prolen(0,3);//3为符号数量的上限,可自行调控
+uniform_int_distribution<int> prolen(0, 3);//3为符号数量的上限,可自行调控
 uniform_int_distribution<int> proop(0, op.size() - 1);//roll运算符
 uniform_int_distribution<int> plusop(0, 100);//roll括号
 string s1 = "-n", s2 = "-r", s3 = "-e", s4 = "-a";
 string inputfile = "Exercises.txt", ansfile = "Answer.txt";
 string outfile1 = "Exercises.txt", outfile2 = "Answer.txt", outfile3 = "Grade.txt";
-map<string,int>mp;
+map<string, int>mp;
+int gcd(int a, int b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
 struct number {
     int son, mum; // 构造函数
     number(int n = 0, int d = 1) : son(n), mum(d) {
@@ -58,7 +71,7 @@ number check(string s) {
         if (op1 == '+' || op1 == '-') return 1;
         if (op1 == '*' || op1 == '/') return 2;
         return 0;
-    };
+        };
     // 计算两个数的运算结果，同时判断是否为负数
     auto cul = [&](number a, number b, char op1) {
         number result(0, 1);
@@ -89,7 +102,7 @@ number check(string s) {
             return result; // 如果结果为负，返回 (-inf, -inf)
         }
         return result;
-    };
+        };
 
     stack<number> values; // 用于存储分数的栈
     stack<char> ops;      // 用于存储操作符的栈
@@ -109,7 +122,8 @@ number check(string s) {
         else if (s[i] == '(') {
             ops.push('(');
             // cout << "Pushed operator: (" << endl;
-        } else if (s[i] == ')') {
+        }
+        else if (s[i] == ')') {
             while (!ops.empty() && ops.top() != '(') {
                 number val2 = values.top();
                 values.pop();
@@ -128,7 +142,7 @@ number check(string s) {
                 // cout << "Computed result: " << result.son << "/" << result.mum << endl;
             }
             ops.pop(); // 弹出左括号
-                       // cout << "Popped operator: (" << endl;
+            // cout << "Popped operator: (" << endl;
         }
         // 处理操作符
         else if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/') {
@@ -191,7 +205,8 @@ string pplus(string s) {
                     cnt1++;
                 }
             }
-        } else {
+        }
+        else {
             if (!flag && cnt1 && plusop(sj) % 12 == 0) {
                 now += ')';
                 cnt1--;
@@ -209,7 +224,7 @@ string pplus(string s) {
 
 string getstring() { // 生成每一个字符串
     string now = "";
-    int cnt = prolen(sj)+1;
+    int cnt = prolen(sj) + 1;
     for (int i = 0; i < cnt; i++) {
         int num1 = promaxm(sj);
         string op1 = op[proop(sj)];
@@ -272,7 +287,8 @@ vector<string> work(vector<string> pro) { // 计算答案
         if (now.son < 0 || now.mum < 0) {
             string s = "Negative numbers appear in this equation";
             ans.push_back(s);
-        } else {
+        }
+        else {
             string s;
             if (now.mum == 1) {
                 ans.push_back(to_string(now.son));
@@ -326,7 +342,8 @@ void compare(vector<string> ans, vector<string> ans1) { //
         if (ans[i] != ans1[i]) {
             wrong.push_back(i + 1);
             cnt2++;
-        } else {
+        }
+        else {
             right.push_back(i + 1);
             cnt1++;
         }
@@ -340,7 +357,8 @@ void solve(int flag) { // 解决问题
         vector<string> pro = read(outfile1);
         vector<string> ans = work(pro);
         write1(ans);
-    } else {
+    }
+    else {
         vector<string> pro = read(inputfile);
         vector<string> ans = work(pro);
         vector<string> ans1 = read(ansfile);
@@ -352,7 +370,7 @@ void solve(int flag) { // 解决问题
 signed main(int argc, char* argv[]) {
     // cout<<argc<<endl;
     if (argc != 5) {
-        cout << argc << endl;
+        //cout << argc << endl;
         cout << "the input is wrong,please restart the program" << endl;
         return 0;
     }
@@ -360,7 +378,8 @@ signed main(int argc, char* argv[]) {
         num = atoi(argv[2]), maxm = atoi(argv[4]);
         // cout<<num<<" "<<maxm<<endl;
         solve(1);
-    } else if (argv[1] == s3) {
+    }
+    else if (argv[1] == s3) {
         inputfile = argv[2], ansfile = argv[4];
         solve(2);
     }
