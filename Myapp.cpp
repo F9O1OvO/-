@@ -348,27 +348,20 @@ void solve(int flag) { // 解决问题
 
 
 signed main(int argc, char* argv[]) {
-    system("pause");
     // cout<<argc<<endl;
-    //if (argc != 5) {
-    //    //cout << argc << endl;
-    //    cout << "the input is wrong,please restart the program" << endl;
-    //    return 0;
-    //}
-    //if (argv[1] == s1) {
-    //    num = atoi(argv[2]), maxm = atoi(argv[4]);
-    //    // cout<<num<<" "<<maxm<<endl;
-    //    solve(1);
-    //}
-    //else if (argv[1] == s3) {
-    //    inputfile = argv[2], ansfile = argv[4];
-    //    solve(2);
-    //}
-    //create();
-    solve(1);
-    cout << "10" << endl;
-    //solve(2);
-    //write1(read(outfile1));
-    system("pause");
+    if (argc != 5) {
+       //cout << argc << endl;
+       cout << "the input is wrong,please restart the program" << endl;
+       return 0;
+    }
+    if (argv[1] == s1) {
+       num = atoi(argv[2]), maxm = atoi(argv[4]);
+       // cout<<num<<" "<<maxm<<endl;
+       solve(1);
+    }
+    else if (argv[1] == s3) {
+       inputfile = argv[2], ansfile = argv[4];
+       solve(2);
+    }
     return 0;
 }
